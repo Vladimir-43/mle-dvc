@@ -5,53 +5,46 @@ stages:
     deps:
     - path: scripts/data.py
       hash: md5
-      md5: 0cb91ccf334d3a8c724bcfb33d59cc59
-      size: 1495
+      md5: 28eb09c6244d1fd4e0f4498181a55785
+      size: 1538
     params:
       params.yaml:
         index_col: customer_id
     outs:
     - path: data/initial_data.csv
       hash: md5
-      md5: 531e9d9e398026998d0f419290e8cf9e
-      size: 806086
-      cloud:
-        my_storage:
-          etag: 531e9d9e398026998d0f419290e8cf9e
-          version_id: 000644946CE42E4A
+      md5: 499273cb20f9f0c8c64a943524c23719
+      size: 799034
   fit_model:
     cmd: python scripts/fit.py
     deps:
     - path: data/initial_data.csv
       hash: md5
-      md5: 531e9d9e398026998d0f419290e8cf9e
-      size: 806086
+      md5: 499273cb20f9f0c8c64a943524c23719
+      size: 799034
     - path: scripts/fit.py
       hash: md5
-      md5: 45a3a79e177663d243d2f4186ca5485d
-      size: 2323
+      md5: 36391dc95d9a0eddf0b8cd9e01bc6b95
+      size: 2311
     params:
       params.yaml:
-        auto_class_weights: Balanced
+        C: 1.0
         index_col: customer_id
         one_hot_drop: if_binary
+        penalty: l2
         target_col: target
     outs:
     - path: models/fitted_model.pkl
       hash: md5
-      md5: 8b389617cac07d734c9977cdeae0ffb7
-      size: 1103135
-      cloud:
-        my_storage:
-          etag: 8b389617cac07d734c9977cdeae0ffb7
-          version_id: 000644946CE32B08
+      md5: 645bb70a19bf17505d80d867022fc533
+      size: 11006
   evaluate_model:
     cmd: python scripts/evaluate.py
     deps:
     - path: models/fitted_model.pkl
       hash: md5
-      md5: 8b389617cac07d734c9977cdeae0ffb7
-      size: 1103135
+      md5: 645bb70a19bf17505d80d867022fc533
+      size: 11006
     - path: scripts/evaluate.py
       hash: md5
       md5: 2c709b7822f61bf2fc64b700a80237f0
@@ -68,9 +61,5 @@ stages:
     outs:
     - path: cv_results/cv_res.json
       hash: md5
-      md5: d98e62070b49e9b337326e768591073b
+      md5: 38da2730f09f781aa03f0b0dde754c76
       size: 81
-      cloud:
-        my_storage:
-          etag: d98e62070b49e9b337326e768591073b
-          version_id: 000644946CE3ED78
